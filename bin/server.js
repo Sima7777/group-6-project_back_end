@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const dotevn = require('dotenv')
-dotevn.config()
+require('dotenv').config()
 
 const app = require('../app')
 

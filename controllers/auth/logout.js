@@ -7,5 +7,4 @@ const logout = async(req, res) => {
   sendSuccessResponse(res, 'Success logout', 200)
 }
 
-module.exports = 
-  logout
+module.exports = logout

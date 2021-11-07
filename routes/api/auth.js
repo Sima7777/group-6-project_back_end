@@ -1,20 +1,21 @@
 const express = require('express')
 
-const { joiSchema } = require('../../models/user')
+const { joiUserSchema } = require('../../models')
 const { controllerWrapper, validation, authenticate } = require('../../middlewares')
 const { auth: ctrl } = require('../../controllers')
-const upload = require('../../middlewares/upload')
 
 const router = express.Router()
 
-router.post('/signup', validation(joiSchema), controllerWrapper(ctrl.signup))
+router.post('/signup', validation(joiUserSchema), controllerWrapper(ctrl.signup))
 
-router.post('/login', validation(joiSchema), controllerWrapper(ctrl.login))
+router.get('/verify/:verifyToken', controllerWrapper(ctrl.verify))
 
-router.patch('/avatars', authenticate, upload.single('avatar'), controllerWrapper(ctrl.avatars))
+router.post('/verify', controllerWrapper(ctrl.repeatEmailVerification))
+
+router.post('/login', validation(joiUserSchema), controllerWrapper(ctrl.login))
 
 router.post('/logout', authenticate, controllerWrapper(ctrl.logout))
 
 router.get('/current', authenticate, controllerWrapper(ctrl.current))
 
-module.exports = router;
+module.exports = router

@@ -13,5 +13,4 @@ const current = async(req, res) => {
   sendSuccessResponse(res, { user }, 200)
 }
 
-module.exports = 
-  current
+module.exports = current
