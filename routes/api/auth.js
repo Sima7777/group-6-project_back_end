@@ -17,4 +17,6 @@ router.post('/logout', authenticate, controllerWrapper(authController.logout))
 
 router.get('/current', authenticate, controllerWrapper(authController.current))
 
+// router.patch('updateBalance', authenticate, controllerWrapper(authController.updateBalance))
+
 module.exports = router

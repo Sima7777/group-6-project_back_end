@@ -4,6 +4,7 @@ const logout = require('./logout')
 const current = require('./current')
 const verify = require('./verify')
 const repeatEmailVerification = require('./repeatEmailVerification')
+const updateBalance = require('./updateBalance')
 
 module.exports = {
   signup,
@@ -11,5 +12,6 @@ module.exports = {
   login,
   logout,
   current,
-  repeatEmailVerification
+  repeatEmailVerification,
+  updateBalance
 }
