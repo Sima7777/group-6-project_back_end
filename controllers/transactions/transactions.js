@@ -1,4 +1,4 @@
-const { Transaction } = require('../../model')
+const { Transaction } = require('../../models')
 
 const getExpenseByMonth = async (req, res, next) => {
   try {
