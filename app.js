@@ -3,6 +3,7 @@ const logger = require('morgan')
 const cors = require('cors')
 
 const authRouter = require('./routes/api/auth')
+const transactionsRouter = require('./routes/api/transactions')
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
+app.use('/api/transactions', transactionsRouter)
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })
