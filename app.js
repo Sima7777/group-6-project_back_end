@@ -3,7 +3,7 @@ const logger = require('morgan')
 const cors = require('cors')
 
 const authRouter = require('./routes/api/auth')
-const transactionsRouter = require('./routes/api/transactions')
+const transactionsRouter = require('./routes/api/transaction')
 
 const app = express()
 
