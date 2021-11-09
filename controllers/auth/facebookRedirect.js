@@ -1,6 +1,8 @@
 const queryString = require('query-string')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
+const Session = require('../../models')
+const User = require('../../models')
 
 const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, BASE_URL, JWT_SECRET, JWT_ACCESS_EXPIRE_TIME, JWT_REFRESH_EXPIRE_TIME } = process.env
 
@@ -33,14 +35,14 @@ const facebookRedirect = async (req, res) => {
   })
   console.log('userData >>', userData)
 
-  const existingParent = await UserModel.findOne({ email: userData.data.email })
+  const existingParent = await User.findOne({ email: userData.data.email })
   if (!existingParent || !existingParent.originUrl) {
     return res.status(404).send({
       message: 'You should register from front-end first (not postman). Google/Facebook  are only for sign-in',
     })
   }
 
-  const newSession = await SessionModel.create({
+  const newSession = await Session.create({
     uid: existingParent._id,
   })
 

@@ -21,6 +21,10 @@ router.get('/google', controllerWrapper(authController.googleAuth))
 
 router.get('/google-redirect', controllerWrapper(authController.googleRedirect))
 
+router.get('/facebook', controllerWrapper(authController.facebookAuth))
+
+router.get('/facebook-redirect', controllerWrapper(authController.facebookRedirect))
+
 // router.patch('updateBalance', authenticate, controllerWrapper(authController.updateBalance))
 
 module.exports = router
