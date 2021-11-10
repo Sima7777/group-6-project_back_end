@@ -20,7 +20,7 @@ const login = async(req, res) => {
   }
   const token = jwt.sign(payload, SECRET_KEY)
   await User.findByIdAndUpdate(_id, { token })
-  sendSuccessResponse(res, { token }, 200)
+  sendSuccessResponse(res, { token, email }, 200)
 }
 
 module.exports = login
