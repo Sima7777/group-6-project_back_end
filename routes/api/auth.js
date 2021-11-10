@@ -25,6 +25,6 @@ router.get('/facebook', controllerWrapper(authController.facebookAuth))
 
 router.get('/facebook-redirect', controllerWrapper(authController.facebookRedirect))
 
-// router.patch('updateBalance', authenticate, controllerWrapper(authController.updateBalance))
+router.patch('/setBalance', authenticate, controllerWrapper(authController.setBalance))
 
 module.exports = router
