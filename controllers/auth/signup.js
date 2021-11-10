@@ -1,4 +1,6 @@
+
 const { Conflict } = require('http-errors')
+const gravatar = require('gravatar')
 const { nanoid } = require('nanoid')
 const { sendSuccessResponse } = require('../../helpers')
 const { User } = require('../../models')
@@ -14,11 +16,12 @@ const signup = async(req, res) => {
   const verifyToken = nanoid()
   const newUser = new User({
     email,
-    password,
     verifyToken,
   })
 
+  const avatar = gravatar.url(email, { s: '250', d: 'identicon' }, true)
   newUser.setPassword(password)
+  newUser.setAvatar(avatar)
 
   const verifyEmail = {
     to: email,
@@ -27,8 +30,8 @@ const signup = async(req, res) => {
   }
 
   await sendEmail(verifyEmail)
-  await newUser.save()
-  sendSuccessResponse(res, { email, password }, 201)
+  const result = await newUser.save()
+  sendSuccessResponse(res, { data: result }, 201)
 }
 
 module.exports = signup

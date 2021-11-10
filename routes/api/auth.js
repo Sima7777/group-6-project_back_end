@@ -1,6 +1,6 @@
 const express = require('express')
 const { joiUserSchema } = require('../../models/user')
-const { controllerWrapper, validation, authenticate } = require('../../middlewares')
+const { controllerWrapper, validation, authenticate, upload } = require('../../middlewares')
 const authController = require('../../controllers/auth')
 
 const router = express.Router()
@@ -14,6 +14,8 @@ router.post('/resendVerification', controllerWrapper(authController.resendVerifi
 router.post('/login', validation(joiUserSchema), controllerWrapper(authController.login))
 
 router.get('/current', authenticate, controllerWrapper(authController.current))
+
+router.patch('/avatars', authenticate, upload.single('avatar'), controllerWrapper(authController.avatars))
 
 router.post('/logout', authenticate, controllerWrapper(authController.logout))
 
