@@ -14,6 +14,7 @@ const signup = async(req, res) => {
   const verifyToken = nanoid()
   const newUser = new User({
     email,
+    password,
     verifyToken,
   })
 
@@ -26,8 +27,8 @@ const signup = async(req, res) => {
   }
 
   await sendEmail(verifyEmail)
-  const result = await newUser.save()
-  sendSuccessResponse(res, { data: result }, 201)
+  await newUser.save()
+  sendSuccessResponse(res, { email, password }, 201)
 }
 
 module.exports = signup

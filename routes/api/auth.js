@@ -9,13 +9,13 @@ router.post('/signup', validation(joiUserSchema), controllerWrapper(authControll
 
 router.get('/verify/:verifyToken', controllerWrapper(authController.verify))
 
-router.post('/verify', controllerWrapper(authController.repeatEmailVerification))
+router.post('/resendVerification', controllerWrapper(authController.resendVerification))
 
 router.post('/login', validation(joiUserSchema), controllerWrapper(authController.login))
 
-router.post('/logout', authenticate, controllerWrapper(authController.logout))
-
 router.get('/current', authenticate, controllerWrapper(authController.current))
+
+router.post('/logout', authenticate, controllerWrapper(authController.logout))
 
 router.patch('/setBalance', authenticate, controllerWrapper(authController.setBalance))
 
