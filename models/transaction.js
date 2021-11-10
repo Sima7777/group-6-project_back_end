@@ -27,7 +27,7 @@ const transactionSchema = Schema(
       ref: 'user',
     },
   },
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true }
 )
 
 const joiTransactionSchema = Joi.object({
@@ -36,6 +36,7 @@ const joiTransactionSchema = Joi.object({
   description: Joi.string().required(),
   amount: Joi.number().required(),
   isIncome: Joi.boolean(),
+  expense: Joi.boolean().default(true),
 })
 
 const Transaction = model('transaction', transactionSchema)
