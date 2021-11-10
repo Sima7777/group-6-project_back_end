@@ -24,9 +24,9 @@ const userSchema = Schema({
     type: String,
     default: null,
   },
-  //    googleAuth: {
-  //             type: String
-  //         }, ?????????????
+  avatarURL: {
+    type: String,
+  },
   verify: {
     type: Boolean,
     default: false,
@@ -47,6 +47,10 @@ userSchema.methods.setPassword = function(password) {
 
 userSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password)
+}
+
+userSchema.methods.setAvatar = function (avatar) {
+  this.avatarURL = avatar
 }
 
 const { SECRET_KEY } = process.env

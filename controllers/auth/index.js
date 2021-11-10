@@ -9,6 +9,7 @@ const googleRedirect = require('./googleRedirect')
 const facebookAuth = require('./facebookAuth')
 const facebookRedirect = require('./facebookRedirect')
 const setBalance = require('./setBalance')
+const avatars = require('./avatars')
 
 module.exports = {
   signup,
@@ -21,5 +22,6 @@ module.exports = {
   googleRedirect,
   facebookAuth,
   facebookRedirect,
-  setBalance
+  setBalance,
+  avatars
 }
