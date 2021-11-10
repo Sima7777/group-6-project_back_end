@@ -4,7 +4,13 @@ const logout = require('./logout')
 const current = require('./current')
 const verify = require('./verify')
 const repeatEmailVerification = require('./repeatEmailVerification')
+
+const googleAuth = require('./googleAuth')
+const googleRedirect = require('./googleRedirect')
+const facebookAuth = require('./facebookAuth')
+const facebookRedirect = require('./facebookRedirect')
 const setBalance = require('./setBalance')
+
 
 module.exports = {
   signup,
@@ -13,5 +19,9 @@ module.exports = {
   logout,
   current,
   repeatEmailVerification,
+  googleAuth,
+  googleRedirect,
+  facebookAuth,
+  facebookRedirect,
   setBalance
 }
