@@ -1,28 +1,28 @@
 const express = require('express')
+const { joiTransactionSchema } = require('../../models/transaction')
+const trasactionsController = require('../../controllers/transactions')
+const { authenticate, controllerWrapper, validation } = require('../../middlewares')
+
 const router = express.Router()
-// const joiTransactionSchema = require('../../models/transaction')
-const add = require('../../controllers/transactions/addTransaction')
-const clear = require('../../controllers/transactions/removeTransaction')
-const transactions = require('../../controllers/transactions/transactions')
 
-const { authenticate, controllerWrapper } = require('../../middlewares')
+router.post('/addIncome', authenticate, validation(joiTransactionSchema), controllerWrapper(trasactionsController.addIncome))
 
-router.post('/expense', authenticate, controllerWrapper(add.addTransaction))
+router.post('/addExpense', authenticate, validation(joiTransactionSchema), controllerWrapper(trasactionsController.addExpense))
 
-router.post('/income', authenticate, controllerWrapper(add.addTransaction))
+router.delete('/:transactionId', authenticate, controllerWrapper(trasactionsController.removeById))
 
-router.delete('/:id', controllerWrapper(clear.removeTransaction))
+router.get('/getExpenseByDate/:date', authenticate, controllerWrapper(trasactionsController.getExpenseByDate))
 
-router.get(
-  '/getExpenseByMonth',
-  authenticate,
-  controllerWrapper(transactions.getExpenseByMonth)
-)
+router.get('/getIncomeByDate/:date', authenticate, controllerWrapper(trasactionsController.getIncomeByDate))
 
-router.get(
-  '/getIncomeByMonth',
-  authenticate,
-  controllerWrapper(transactions.getIncomeByMonth)
-)
+router.get('/getExpenseByMonth', authenticate, controllerWrapper(trasactionsController.getExpenseByMonth))
+
+router.get('/getIncomeByMonth', authenticate, controllerWrapper(trasactionsController.getIncomeByMonth))
+
+router.get('/getExpenseDetail/:date', authenticate, controllerWrapper(trasactionsController.getExpenseDetail))
+
+router.get('/getIncomeDetail/:date', authenticate, controllerWrapper(trasactionsController.getIncomeDetail))
+
+router.get('/getLast', authenticate, controllerWrapper(trasactionsController.getLast))
 
 module.exports = router

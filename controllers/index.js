@@ -4,6 +4,5 @@ const addTransaction = require('./transactions')
 
 module.export = {
   auth,
-  transactions,
-  addTransaction,
+  transactions
 }
