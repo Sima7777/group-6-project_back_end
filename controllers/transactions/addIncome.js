@@ -3,14 +3,14 @@ const { Transaction, User } = require('../../models')
 const addIncome = async (req, res, next) => {
   try {
     const { amount } = req.body
-    const userId = req.user._id.toSring()
-    const transactonData = await Transaction.create({
+    const userId = req.user._id.toString()
+    const transactionData = await Transaction.create({
       ...req.body,
       isIncome: true,
       owner: userId
     })
     res.status(201).json({
-      transactonData
+      transactionData
     })
     const user = await User.findById(userId)
     user.balance += amount

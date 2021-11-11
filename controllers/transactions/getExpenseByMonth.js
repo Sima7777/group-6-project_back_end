@@ -1,6 +1,6 @@
 const { Transaction } = require('../../models')
 
-const getExpensedByMonth = async (req, res, next) => {
+const getExpenseByMonth = async (req, res, next) => {
   try {
     const expenseByMonth = await Transaction.aggregate([
       { $match: { isIncome: false } },
@@ -29,4 +29,4 @@ const getExpensedByMonth = async (req, res, next) => {
   }
 }
 
-module.exports = getExpensedByMonth
+module.exports = getExpenseByMonth
