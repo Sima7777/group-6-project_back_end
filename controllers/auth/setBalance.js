@@ -10,7 +10,7 @@ const setBalance = async (req, res) => {
     { balance },
     { new: true })
 
-  sendSuccessResponse(res, { newBalance }, 201)
+  sendSuccessResponse(res, { newBalance: balance }, 201)
 }
 
 module.exports = setBalance

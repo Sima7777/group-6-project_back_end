@@ -18,6 +18,9 @@
     "servers": [
         {
             "url": "https://kapusta-pro.herokuapp.com/"
+        },
+        {
+            "url": "http://localhost:3000"
         }
     ],
     "tags": [
@@ -146,7 +149,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "User authentication",
+                "summary": "User login",
                 "parameters": [],
                 "requestBody": {
                     "description": "Authentication's object",
@@ -223,12 +226,41 @@
                 }
             }
         },
+        "/api/auth/avatars": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User avatar",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AvatarsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
         "/api/auth/logout": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Logout",
+                "summary": "User logout",
                 "parameters": [],
                 "security": [
                     {
@@ -256,6 +288,46 @@
                     },
                     "404": {
                         "description": "Invalid user",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/setBalance/": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "SetBalance",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Set balance body",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SetBalanceRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User's new balance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SetBalanceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
                         "content": {}
                     }
                 }
@@ -746,6 +818,26 @@
                     }
                 }
             },
+            "AvatarsResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "avatarURL": {
+                                "type": "string",
+                                "description": "User's email",
+                                "format": "email"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "user": {
+                        "avatarURL": "user_428485647634987643876047640387_avatar.png"
+                    }
+                }
+            },
             "LogoutResponse": {
                 "type": "object",
                 "properties": {
@@ -771,136 +863,203 @@
                     "message": "Successful logout"
                 }
             },
-            "TransactionAddIncomeRequest": {
+            "SetBalanceRequest": {
                 "type": "object",
                 "properties": {
-                    "date": {
-                        "type": "string"
-                    },
-                    "category": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "amount": {
-                        "type": "number"
-                    },
-                    "isIncome": {
-                        "type": "boolean"
+                    "balance": {
+                        "type": "integer",
+                        "description": "new balance",
+                        "example": 1000
                     }
-                },
-                "example": {
-                    "date": "2021-09-26",
-                    "category": "Доход",
-                    "description": "ЗП",
-                    "amount": 110000,
-                    "isIncome": true
                 }
             },
-            "TransactionAddIncomeResponse": {
-                "type": "object",
-                "properties": {
-                    "transactionData": {
-                        "type": "object",
-                        "properties": {
-                            "date": {
-                                "type": "string"
-                            },
-                            "category": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            },
-                            "isIncome": {
-                                "type": "boolean"
-                            },
-                            "owner": {
-                                "type": "string"
-                            },
-                            "_id": {
-                                "type": "string"
-                            }
+            "SetBalanceResponse": {
+                "type": "integer",
+                "description": "balance",
+                "example": {
+                    "status": "success",
+                    "code": 200,
+                    "user": {
+                        "newBalance": 1000
+                    }
+                }
+            }
+        },
+        "TransactionAddIncomeRequest": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "isIncome": {
+                    "type": "boolean"
+                }
+            },
+            "example": {
+                "date": "2021-09-26",
+                "category": "Доход",
+                "description": "ЗП",
+                "amount": 110000,
+                "isIncome": true
+            }
+        },
+        "TransactionAddIncomeResponse": {
+            "type": "object",
+            "properties": {
+                "transactionData": {
+                    "type": "object",
+                    "properties": {
+                        "date": {
+                            "type": "string"
+                        },
+                        "category": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "amount": {
+                            "type": "number"
+                        },
+                        "isIncome": {
+                            "type": "boolean"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "_id": {
+                            "type": "string"
                         }
                     }
+                }
+            },
+            "example": {
+                "transactionData": {
+                    "date": "2021-09-26T00:00:00.000Z",
+                    "category": "Доход",
+                    "description": "лотерея",
+                    "amount": 110000,
+                    "isIncome": true,
+                    "owner": "616579bfc5c00253cf2ca068",
+                    "_id": "61657a4cfa20452eabaa44f8",
+                    "createdAt": "2021-10-12T12:06:36.588Z",
+                    "updatedAt": "2021-10-12T12:06:36.588Z"
+                }
+            }
+        },
+        "TransactionAddExpenseRequest": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
                 },
-                "example": {
-                    "transactionData": {
-                        "date": "2021-09-26T00:00:00.000Z",
-                        "category": "Доход",
-                        "description": "лотерея",
-                        "amount": 110000,
-                        "isIncome": true,
-                        "owner": "616579bfc5c00253cf2ca068",
-                        "_id": "61657a4cfa20452eabaa44f8",
-                        "createdAt": "2021-10-12T12:06:36.588Z",
-                        "updatedAt": "2021-10-12T12:06:36.588Z"
+                "category": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "isIncome": {
+                    "type": "boolean"
+                }
+            },
+            "example": {
+                "date": "2021-10-26",
+                "category": "Образование",
+                "description": "Курсы GoIt",
+                "amount": 3000,
+                "isIncome": false
+            }
+        },
+        "TransactionAddExpenseResponse": {
+            "type": "object",
+            "properties": {
+                "transactionData": {
+                    "type": "object",
+                    "properties": {
+                        "date": {
+                            "type": "string"
+                        },
+                        "category": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "amount": {
+                            "type": "number"
+                        },
+                        "isIncome": {
+                            "type": "boolean"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "_id": {
+                            "type": "string"
+                        }
                     }
                 }
             },
-            "TransactionAddExpenseRequest": {
-                "type": "object",
-                "properties": {
-                    "date": {
-                        "type": "string"
-                    },
-                    "category": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "amount": {
-                        "type": "number"
-                    },
-                    "isIncome": {
-                        "type": "boolean"
-                    }
-                },
-                "example": {
-                    "date": "2021-10-26",
+            "example": {
+                "transactionData": {
+                    "date": "2021-10-26T00:00:00.000Z",
                     "category": "Образование",
                     "description": "Курсы GoIt",
                     "amount": 3000,
-                    "isIncome": false
+                    "isIncome": false,
+                    "owner": "6160726197186cf3ccc540b1",
+                    "_id": "616365fa9d89d85b6e6a669c",
+                    "createdAt": "2021-10-10T22:15:22.713Z",
+                    "updatedAt": "2021-10-10T22:15:22.713Z"
                 }
-            },
-            "TransactionAddExpenseResponse": {
-                "type": "object",
-                "properties": {
-                    "transactionData": {
-                        "type": "object",
-                        "properties": {
-                            "date": {
-                                "type": "string"
-                            },
-                            "category": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            },
-                            "isIncome": {
-                                "type": "boolean"
-                            },
-                            "owner": {
-                                "type": "string"
-                            },
-                            "_id": {
-                                "type": "string"
-                            }
+            }
+        },
+        "TransactionsExpenseByDate": {
+            "type": "object",
+            "properties": {
+                "transactions": {
+                    "type": "array",
+                    "properties": {
+                        "date": {
+                            "type": "string"
+                        },
+                        "category": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "amount": {
+                            "type": "number"
+                        },
+                        "isIncome": {
+                            "type": "boolean"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "_id": {
+                            "type": "string"
                         }
                     }
-                },
-                "example": {
-                    "transactionData": {
+                }
+            },
+            "example": {
+                "transactions": [
+                    {
                         "date": "2021-10-26T00:00:00.000Z",
                         "category": "Образование",
                         "description": "Курсы GoIt",
@@ -911,282 +1070,236 @@
                         "createdAt": "2021-10-10T22:15:22.713Z",
                         "updatedAt": "2021-10-10T22:15:22.713Z"
                     }
-                }
-            },
-            "TransactionsExpenseByDate": {
-                "type": "object",
-                "properties": {
-                    "transactions": {
-                        "type": "array",
-                        "properties": {
-                            "date": {
-                                "type": "string"
-                            },
-                            "category": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            },
-                            "isIncome": {
-                                "type": "boolean"
-                            },
-                            "owner": {
-                                "type": "string"
-                            },
-                            "_id": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "example": {
-                    "transactions": [
-                        {
-                            "date": "2021-10-26T00:00:00.000Z",
-                            "category": "Образование",
-                            "description": "Курсы GoIt",
-                            "amount": 3000,
-                            "isIncome": false,
-                            "owner": "6160726197186cf3ccc540b1",
-                            "_id": "616365fa9d89d85b6e6a669c",
-                            "createdAt": "2021-10-10T22:15:22.713Z",
-                            "updatedAt": "2021-10-10T22:15:22.713Z"
-                        }
-                    ]
-                }
-            },
-            "TransactionsIncomeByDate": {
-                "type": "object",
-                "properties": {
-                    "transactions": {
-                        "type": "array",
-                        "properties": {
-                            "date": {
-                                "type": "string"
-                            },
-                            "category": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            },
-                            "isIncome": {
-                                "type": "boolean"
-                            },
-                            "owner": {
-                                "type": "string"
-                            },
-                            "_id": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "example": {
-                    "transactions": [
-                        {
-                            "date": "2021-10-26T00:00:00.000Z",
-                            "category": "ЗП",
-                            "description": "Основная",
-                            "amount": 16000,
-                            "isIncome": true,
-                            "owner": "6160726197186cf3ccc540b1",
-                            "_id": "616365fa9d89d85b6e6a667c",
-                            "createdAt": "2021-10-10T22:15:22.713Z",
-                            "updatedAt": "2021-10-10T22:15:22.713Z"
-                        }
-                    ]
-                }
-            },
-            "TransactionsByMonth": {
-                "type": "object",
-                "properties": {
-                    "transactions": {
-                        "type": "array",
-                        "properties": {
-                            "_id": {
-                                "type": "string"
-                            },
-                            "month": {
-                                "type": "number"
-                            },
-                            "year": {
-                                "type": "number"
-                            },
-                            "total": {
-                                "type": "number"
-                            }
-                        }
-                    }
-                },
-                "example": {
-                    "expenseByMonth": [
-                        {
-                            "_id": {
-                                "month": 10,
-                                "year": 2021
-                            },
-                            "total": 4400
+                ]
+            }
+        },
+        "TransactionsIncomeByDate": {
+            "type": "object",
+            "properties": {
+                "transactions": {
+                    "type": "array",
+                    "properties": {
+                        "date": {
+                            "type": "string"
                         },
-                        {
-                            "_id": {
-                                "month": 9,
-                                "year": 2021
-                            },
-                            "total": 12800
+                        "category": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "amount": {
+                            "type": "number"
+                        },
+                        "isIncome": {
+                            "type": "boolean"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "_id": {
+                            "type": "string"
                         }
-                    ]
+                    }
                 }
             },
-            "TransactionsExpenseDetail": {
-                "type": "object",
-                "properties": {
-                    "expenseDetail": {
-                        "type": "array",
-                        "properties": {
-                            "_id": {
-                                "type": "string"
-                            },
-                            "descriptions": {
-                                "type": "array",
-                                "properties": {
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "total": {
-                                        "type": "number"
-                                    }
-                                }
-                            },
-                            "total": {
-                                "type": "number"
-                            }
+            "example": {
+                "transactions": [
+                    {
+                        "date": "2021-10-26T00:00:00.000Z",
+                        "category": "ЗП",
+                        "description": "Основная",
+                        "amount": 16000,
+                        "isIncome": true,
+                        "owner": "6160726197186cf3ccc540b1",
+                        "_id": "616365fa9d89d85b6e6a667c",
+                        "createdAt": "2021-10-10T22:15:22.713Z",
+                        "updatedAt": "2021-10-10T22:15:22.713Z"
+                    }
+                ]
+            }
+        },
+        "TransactionsByMonth": {
+            "type": "object",
+            "properties": {
+                "transactions": {
+                    "type": "array",
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "month": {
+                            "type": "number"
+                        },
+                        "year": {
+                            "type": "number"
+                        },
+                        "total": {
+                            "type": "number"
                         }
+                    }
+                }
+            },
+            "example": {
+                "expenseByMonth": [
+                    {
+                        "_id": {
+                            "month": 10,
+                            "year": 2021
+                        },
+                        "total": 4400
                     },
-                    "dates": {
-                        "type": "object",
-                        "properties": {
-                            "minDate": {
-                                "type": "string",
-                                "format": "date"
-                            },
-                            "maxDate": {
-                                "type": "string",
-                                "format": "date"
+                    {
+                        "_id": {
+                            "month": 9,
+                            "year": 2021
+                        },
+                        "total": 12800
+                    }
+                ]
+            }
+        },
+        "TransactionsExpenseDetail": {
+            "type": "object",
+            "properties": {
+                "expenseDetail": {
+                    "type": "array",
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "descriptions": {
+                            "type": "array",
+                            "properties": {
+                                "description": {
+                                    "type": "string"
+                                },
+                                "total": {
+                                    "type": "number"
+                                }
                             }
+                        },
+                        "total": {
+                            "type": "number"
                         }
                     }
                 },
-                "example": {
-                    "expenseDetail": [
-                        {
-                            "_id": "Развлечения",
-                            "descriptions": [
-                                {
-                                    "description": "Салют",
-                                    "total": 1000
-                                },
-                                {
-                                    "description": "Яхта",
-                                    "total": 3600
-                                }
-                            ],
-                            "total": 4600
+                "dates": {
+                    "type": "object",
+                    "properties": {
+                        "minDate": {
+                            "type": "string",
+                            "format": "date"
                         },
-                        {
-                            "_id": "Алкоголь",
-                            "descriptions": [
-                                {
-                                    "description": "Мартини",
-                                    "total": 160
-                                }
-                            ],
-                            "total": 160
-                        },
-                        {
-                            "_id": "Продукты",
-                            "descriptions": [
-                                {
-                                    "description": "Фрукты",
-                                    "total": 400
-                                }
-                            ],
-                            "total": 400
+                        "maxDate": {
+                            "type": "string",
+                            "format": "date"
                         }
-                    ]
+                    }
                 }
             },
-            "TransactionsIncomeDetail": {
-                "type": "object",
-                "properties": {
-                    "expenseDetail": {
-                        "type": "array",
-                        "properties": {
-                            "_id": {
-                                "type": "string"
+            "example": {
+                "expenseDetail": [
+                    {
+                        "_id": "Развлечения",
+                        "descriptions": [
+                            {
+                                "description": "Салют",
+                                "total": 1000
                             },
-                            "descriptions": {
-                                "type": "array",
-                                "properties": {
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "total": {
-                                        "type": "number"
-                                    }
-                                }
-                            },
-                            "total": {
-                                "type": "number"
+                            {
+                                "description": "Яхта",
+                                "total": 3600
                             }
-                        }
+                        ],
+                        "total": 4600
                     },
-                    "dates": {
-                        "type": "object",
-                        "properties": {
-                            "minDate": {
-                                "type": "string",
-                                "format": "date"
-                            },
-                            "maxDate": {
-                                "type": "string",
-                                "format": "date"
+                    {
+                        "_id": "Алкоголь",
+                        "descriptions": [
+                            {
+                                "description": "Мартини",
+                                "total": 160
                             }
+                        ],
+                        "total": 160
+                    },
+                    {
+                        "_id": "Продукты",
+                        "descriptions": [
+                            {
+                                "description": "Фрукты",
+                                "total": 400
+                            }
+                        ],
+                        "total": 400
+                    }
+                ]
+            }
+        },
+        "TransactionsIncomeDetail": {
+            "type": "object",
+            "properties": {
+                "expenseDetail": {
+                    "type": "array",
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "descriptions": {
+                            "type": "array",
+                            "properties": {
+                                "description": {
+                                    "type": "string"
+                                },
+                                "total": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "total": {
+                            "type": "number"
                         }
                     }
                 },
-                "example": {
-                    "expenseDetail": [
-                        {
-                            "_id": "ЗП",
-                            "descriptions": [
-                                {
-                                    "description": "Основная",
-                                    "total": 16000
-                                },
-                                {
-                                    "description": "Доп.",
-                                    "total": 5000
-                                }
-                            ],
-                            "total": 21000
+                "dates": {
+                    "type": "object",
+                    "properties": {
+                        "minDate": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "maxDate": {
+                            "type": "string",
+                            "format": "date"
                         }
-                    ]
+                    }
                 }
             },
-            "securitySchemes": {
-                "Bearer": {
-                    "type": "http",
-                    "scheme": "bearer",
-                    "bearerFormat": "JWT"
-                }
+            "example": {
+                "expenseDetail": [
+                    {
+                        "_id": "ЗП",
+                        "descriptions": [
+                            {
+                                "description": "Основная",
+                                "total": 16000
+                            },
+                            {
+                                "description": "Доп.",
+                                "total": 5000
+                            }
+                        ],
+                        "total": 21000
+                    }
+                ]
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
