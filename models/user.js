@@ -24,9 +24,6 @@ const userSchema = Schema({
     type: String,
     default: null,
   },
-  //    googleAuth: {
-  //             type: String
-  //         }, ?????????????
   verify: {
     type: Boolean,
     default: false,

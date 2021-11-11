@@ -4,7 +4,6 @@ const cors = require('cors')
 
 const authRouter = require('./routes/api/auth')
 const transactionsRouter = require('./routes/api/transaction')
-
 const app = express()
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'

@@ -3,5 +3,5 @@ const transactions = require('./transactions')
 
 module.export = {
   auth,
-  transactions,
+  transactions
 }
