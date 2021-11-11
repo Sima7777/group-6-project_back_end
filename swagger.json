@@ -18,9 +18,6 @@
     "servers": [
         {
             "url": "https://kapusta-pro.herokuapp.com/"
-        },
-        {
-            "url": "http://localhost:3000"
         }
     ],
     "tags": [
