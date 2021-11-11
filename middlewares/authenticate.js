@@ -9,7 +9,7 @@ const authenticate = async(req, res, next) => {
   if (!authorization) {
     throw new Unauthorized('Not authorized')
   }
-
+  console.log('authorization', authorization)
   const [bearer, token] = authorization.split(' ')
   if (bearer !== 'Bearer') {
     throw new Unauthorized('Not authorized')
