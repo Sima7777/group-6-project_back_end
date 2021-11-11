@@ -1,0 +1,393 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "2.0.0",
+        "title": "Kapusta-finance API docs",
+        "description": "API documentation for GoIT project 'Kapusta'. [Backend github repository](https://github.com/Ivanka1991/group-6-project_back_end)",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "producers": [
+        "application/json"
+    ],
+    "servers": [
+        {
+            "url": "https://kapusta-pro.herokuapp.com/"
+        },
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "auth endpoints"
+        },
+        {
+            "name": "Transactions",
+            "description": "transactions endpoints"
+        }
+    ],
+    "paths": {
+        "/api/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User registration",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Registration's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "409": {
+                        "description": "Email in use",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/verify/:verifyToken": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User verify",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification success"
+                    },
+                    "404": {
+                        "description": "User not found by token during email verification",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/resendVerification": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User authentication",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/LoginRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "403": {
+                        "description": "Email or password is wrong",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User authentication",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "403": {
+                        "description": "Email or password is wrong",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/current": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Current user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No token provided",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LogoutResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No token provided",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SignupRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "password123"
+                    }
+                }
+            },
+            "SignupResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "password123"
+                    }
+                }
+            },
+            "example": {
+                "email": "user@example.com",
+                "password": "password123"
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "Session's access token (needed for all requests)",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+                    },
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "User's name"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "format": "email"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNjliOTk5OWFhMWI1OGMxMzE3OGU3NSIsImlhdCI6MTYzNDMxODc0NX0.nKbAAM399iINJFivkFb8Ne2Z7a9rMXrdr3L21remrPs",
+                    "user": {
+                        "email": "user@example.com"
+                    }
+                }
+            },
+            "CurrentResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "type": "string",
+                                "description": "User's id"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "format": "email"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "user": {
+                        "_id": "User's id",
+                        "email": "user@example.com"
+                    }
+                }
+            },
+            "LogoutResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "type": "string"
+                            },
+                            "code": {
+                                "type": "integer"
+                            },
+                            "message": {
+                                "type": "string",
+                                "description": "Successful logout"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": "success",
+                    "code": 200,
+                    "message": "Successful logout"
+                }
+            },
+            "securitySchemes": {
+                "Bearer": {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+            }
+        }
+    }
+}

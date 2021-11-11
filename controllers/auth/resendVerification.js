@@ -22,7 +22,7 @@ const repeatEmailVerification = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email to finish registration',
-    html: `<a href="http://localhost:3000/api/auth/verify/${user.verifyToken}" target="_blank">Confirm email<a>`,
+    html: `<a href="https://kapusta-pro.herokuapp.com/api/auth/verify/${user.verifyToken}" target="_blank">Confirm email<a>`,
   }
 
   await sendEmail(verifyEmail)
