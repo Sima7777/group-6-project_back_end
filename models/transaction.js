@@ -26,6 +26,10 @@ const transactionSchema = Schema(
       type: SchemaTypes.ObjectId,
       ref: 'user',
     },
+    expense: {
+      type: Boolean,
+      default: true,
+    },
   },
   { versionKey: false, timestamps: true }
 )

@@ -1,12 +1,17 @@
 const express = require('express')
 const router = express.Router()
 // const joiTransactionSchema = require('../../models/transaction')
-const ctrl = require('../../controllers/transactions/addTransaction')
+const add = require('../../controllers/transactions/addTransaction')
+const clear = require('../../controllers/transactions/removeTransaction')
 const transactions = require('../../controllers/transactions/transactions')
 
 const { authenticate, controllerWrapper } = require('../../middlewares')
 
-router.post('/', authenticate, controllerWrapper(ctrl.addTransaction))
+router.post('/expense', authenticate, controllerWrapper(add.addTransaction))
+
+router.post('/income', authenticate, controllerWrapper(add.addTransaction))
+
+router.delete('/:id', controllerWrapper(clear.removeTransaction))
 
 router.get(
   '/getExpenseByMonth',

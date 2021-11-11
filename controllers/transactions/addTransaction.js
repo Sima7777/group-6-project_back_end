@@ -9,15 +9,16 @@ const add = async (userId, body) =>
   })
 
 // const updateBalance = async (_id, balance) =>
-//   await User.findByIdAndUpdate(_id, { balance }, { new: true })
+//   await User.findByIdAndUpdate(_id, { balance })
 
 const addTransaction = async (req, res, next) => {
   try {
-    const { amount } = req.body
+    // const { amount } = req.body
     const { _id, balance } = req.user
 
-    const expense = req.route.path === '/expence'
+    console.log(req.body)
 
+    const expense = req.route.path === '/expense' ? true : false
     // const newBalance = expense ? balance - amount : balance + amount
 
     // if (newBalance < 0) {
