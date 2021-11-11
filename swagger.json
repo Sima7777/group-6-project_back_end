@@ -18,9 +18,6 @@
     "servers": [
         {
             "url": "https://kapusta-pro.herokuapp.com/"
-        },
-        {
-            "url": "http://localhost:3000"
         }
     ],
     "tags": [
@@ -263,6 +260,399 @@
                     }
                 }
             }
+        },
+        "/api/transactions/addIncome": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Adding a revenue transaction",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Transactions object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TransactionAddIncomeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionAddIncomeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/addExpense": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Adding an expense transaction",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Transactions object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TransactionAddExpenseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionAddExpenseResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getExpenseByDate/{date}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get transaction",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "Date of transactions ",
+                        "schema": {
+                            "type": "string",
+                            "format": "yyyy-mm-dd"
+                        },
+                        "example": "2021-10-06"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsExpenseByDate"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getIncomeByDate/{date}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get transaction",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "Date of transactions ",
+                        "schema": {
+                            "type": "string",
+                            "format": "yyyy-mm-dd"
+                        },
+                        "example": "2021-10-06"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsIncomeByDate"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getExpenseByMonth": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get expense transactions by month",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsByMonth"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getIncomeByMonth": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get income transactions by month",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsByMonth"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getExpenseDetail/{date}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get transaction",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "Month of transactions ",
+                        "schema": {
+                            "type": "string",
+                            "format": "yyyy-mm"
+                        },
+                        "example": "2021-10"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsExpenseDetail"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getIncomeDetail/{date}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get transaction",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "Month of transactions ",
+                        "schema": {
+                            "type": "string",
+                            "format": "yyyy-mm"
+                        },
+                        "example": "2021-10"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsIncomeDetail"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/getLast": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get last transactions",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "required": false,
+                        "description": "The numbers of last transactions to return",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": "3"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsExpenseByDate"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/api/transactions/{transactionId}": {
+            "delete": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Delete transaction",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "required": true,
+                        "description": "Transaction's id (_id field in transaction object)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid access token)",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Transactions not found",
+                        "content": {}
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -379,6 +769,416 @@
                     "status": "success",
                     "code": 200,
                     "message": "Successful logout"
+                }
+            },
+            "TransactionAddIncomeRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "isIncome": {
+                        "type": "boolean"
+                    }
+                },
+                "example": {
+                    "date": "2021-09-26",
+                    "category": "Доход",
+                    "description": "ЗП",
+                    "amount": 110000,
+                    "isIncome": true
+                }
+            },
+            "TransactionAddIncomeResponse": {
+                "type": "object",
+                "properties": {
+                    "transactionData": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string"
+                            },
+                            "category": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            },
+                            "isIncome": {
+                                "type": "boolean"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "transactionData": {
+                        "date": "2021-09-26T00:00:00.000Z",
+                        "category": "Доход",
+                        "description": "лотерея",
+                        "amount": 110000,
+                        "isIncome": true,
+                        "owner": "616579bfc5c00253cf2ca068",
+                        "_id": "61657a4cfa20452eabaa44f8",
+                        "createdAt": "2021-10-12T12:06:36.588Z",
+                        "updatedAt": "2021-10-12T12:06:36.588Z"
+                    }
+                }
+            },
+            "TransactionAddExpenseRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "isIncome": {
+                        "type": "boolean"
+                    }
+                },
+                "example": {
+                    "date": "2021-10-26",
+                    "category": "Образование",
+                    "description": "Курсы GoIt",
+                    "amount": 3000,
+                    "isIncome": false
+                }
+            },
+            "TransactionAddExpenseResponse": {
+                "type": "object",
+                "properties": {
+                    "transactionData": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string"
+                            },
+                            "category": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            },
+                            "isIncome": {
+                                "type": "boolean"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "transactionData": {
+                        "date": "2021-10-26T00:00:00.000Z",
+                        "category": "Образование",
+                        "description": "Курсы GoIt",
+                        "amount": 3000,
+                        "isIncome": false,
+                        "owner": "6160726197186cf3ccc540b1",
+                        "_id": "616365fa9d89d85b6e6a669c",
+                        "createdAt": "2021-10-10T22:15:22.713Z",
+                        "updatedAt": "2021-10-10T22:15:22.713Z"
+                    }
+                }
+            },
+            "TransactionsExpenseByDate": {
+                "type": "object",
+                "properties": {
+                    "transactions": {
+                        "type": "array",
+                        "properties": {
+                            "date": {
+                                "type": "string"
+                            },
+                            "category": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            },
+                            "isIncome": {
+                                "type": "boolean"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "transactions": [
+                        {
+                            "date": "2021-10-26T00:00:00.000Z",
+                            "category": "Образование",
+                            "description": "Курсы GoIt",
+                            "amount": 3000,
+                            "isIncome": false,
+                            "owner": "6160726197186cf3ccc540b1",
+                            "_id": "616365fa9d89d85b6e6a669c",
+                            "createdAt": "2021-10-10T22:15:22.713Z",
+                            "updatedAt": "2021-10-10T22:15:22.713Z"
+                        }
+                    ]
+                }
+            },
+            "TransactionsIncomeByDate": {
+                "type": "object",
+                "properties": {
+                    "transactions": {
+                        "type": "array",
+                        "properties": {
+                            "date": {
+                                "type": "string"
+                            },
+                            "category": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            },
+                            "isIncome": {
+                                "type": "boolean"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "transactions": [
+                        {
+                            "date": "2021-10-26T00:00:00.000Z",
+                            "category": "ЗП",
+                            "description": "Основная",
+                            "amount": 16000,
+                            "isIncome": true,
+                            "owner": "6160726197186cf3ccc540b1",
+                            "_id": "616365fa9d89d85b6e6a667c",
+                            "createdAt": "2021-10-10T22:15:22.713Z",
+                            "updatedAt": "2021-10-10T22:15:22.713Z"
+                        }
+                    ]
+                }
+            },
+            "TransactionsByMonth": {
+                "type": "object",
+                "properties": {
+                    "transactions": {
+                        "type": "array",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            },
+                            "month": {
+                                "type": "number"
+                            },
+                            "year": {
+                                "type": "number"
+                            },
+                            "total": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "expenseByMonth": [
+                        {
+                            "_id": {
+                                "month": 10,
+                                "year": 2021
+                            },
+                            "total": 4400
+                        },
+                        {
+                            "_id": {
+                                "month": 9,
+                                "year": 2021
+                            },
+                            "total": 12800
+                        }
+                    ]
+                }
+            },
+            "TransactionsExpenseDetail": {
+                "type": "object",
+                "properties": {
+                    "expenseDetail": {
+                        "type": "array",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            },
+                            "descriptions": {
+                                "type": "array",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "total": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "total": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "dates": {
+                        "type": "object",
+                        "properties": {
+                            "minDate": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "maxDate": {
+                                "type": "string",
+                                "format": "date"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "expenseDetail": [
+                        {
+                            "_id": "Развлечения",
+                            "descriptions": [
+                                {
+                                    "description": "Салют",
+                                    "total": 1000
+                                },
+                                {
+                                    "description": "Яхта",
+                                    "total": 3600
+                                }
+                            ],
+                            "total": 4600
+                        },
+                        {
+                            "_id": "Алкоголь",
+                            "descriptions": [
+                                {
+                                    "description": "Мартини",
+                                    "total": 160
+                                }
+                            ],
+                            "total": 160
+                        },
+                        {
+                            "_id": "Продукты",
+                            "descriptions": [
+                                {
+                                    "description": "Фрукты",
+                                    "total": 400
+                                }
+                            ],
+                            "total": 400
+                        }
+                    ]
+                }
+            },
+            "TransactionsIncomeDetail": {
+                "type": "object",
+                "properties": {
+                    "expenseDetail": {
+                        "type": "array",
+                        "properties": {
+                            "_id": {
+                                "type": "string"
+                            },
+                            "descriptions": {
+                                "type": "array",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "total": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "total": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "dates": {
+                        "type": "object",
+                        "properties": {
+                            "minDate": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "maxDate": {
+                                "type": "string",
+                                "format": "date"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "expenseDetail": [
+                        {
+                            "_id": "ЗП",
+                            "descriptions": [
+                                {
+                                    "description": "Основная",
+                                    "total": 16000
+                                },
+                                {
+                                    "description": "Доп.",
+                                    "total": 5000
+                                }
+                            ],
+                            "total": 21000
+                        }
+                    ]
                 }
             },
             "securitySchemes": {
