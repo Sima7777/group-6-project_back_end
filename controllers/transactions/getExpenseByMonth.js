@@ -3,7 +3,7 @@ const { Transaction } = require('../../models')
 const getExpenseByMonth = async (req, res, next) => {
   try {
     const expenseByMonth = await Transaction.aggregate([
-      { $match: { isIncome: false } },
+      { $match: { isIncome: false, owner: req.user._id } },
       {
         $group: {
           _id: {
