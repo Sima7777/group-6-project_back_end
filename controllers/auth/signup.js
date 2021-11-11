@@ -5,9 +5,11 @@ const { sendSuccessResponse } = require('../../helpers')
 const { User } = require('../../models')
 
 const { sendEmail } = require('../../helpers')
+// const {BASE_URL} = process.env
 
 const signup = async (req, res) => {
   const { email, password } = req.body
+  console.log('process.env', process.env)
   const user = await User.findOne({ email })
   if (user) {
     throw new Conflict('Email in use')
@@ -25,7 +27,7 @@ const signup = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email to finish registration',
-    html: `<a href="https://kapusta-pro.herokuapp.com/api/auth/verify/${verifyToken}" target="_blank">Confirm email<a>`,
+    html: `<a href="http://kapusta-pro.herokuapp.com/api/auth/verify/${verifyToken}" target="_blank">Confirm email<a>`,
   }
 
   await sendEmail(verifyEmail)
