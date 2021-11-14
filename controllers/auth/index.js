@@ -6,12 +6,10 @@ const verify = require('./verify')
 const resendVerification = require('./resendVerification')
 const googleAuth = require('./googleAuth')
 const googleRedirect = require('./googleRedirect')
-const facebookAuth = require('./facebookAuth')
-const facebookRedirect = require('./facebookRedirect')
 const setBalance = require('./setBalance')
 const avatars = require('./avatars')
 const googleUser = require('./googleUser')
-const google = require('./google')
+//const google = require('./google')
 
 module.exports = {
   signup,
@@ -22,10 +20,8 @@ module.exports = {
   resendVerification,
   googleAuth,
   googleRedirect,
-  facebookAuth,
-  facebookRedirect,
   setBalance,
   avatars,
   googleUser,
-  google
+  //google
 }
