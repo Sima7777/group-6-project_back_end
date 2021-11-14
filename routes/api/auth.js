@@ -19,13 +19,21 @@ router.patch('/avatars', authenticate, upload.single('avatar'), controllerWrappe
 
 router.post('/logout', authenticate, controllerWrapper(authController.logout))
 
-router.get('/google', controllerWrapper(authController.googleAuth))
+router.get('/google', (req, res) => {
+  console.log('no data')
+  res.send('no data')
+})
+// router.get('/google', controllerWrapper(authController.googleAuth))
 
 router.get('/google-redirect', controllerWrapper(authController.googleRedirect))
 
-router.get('/facebook', controllerWrapper(authController.facebookAuth))
+router.get('/:userEmail', controllerWrapper(authController.googleUser))
 
-router.get('/facebook-redirect', controllerWrapper(authController.facebookRedirect))
+// router.get('/google', controllerWrapper(authController.google))
+
+// router.get('/facebook', controllerWrapper(authController.facebookAuth))
+
+// router.get('/facebook-redirect', controllerWrapper(authController.facebookRedirect))
 
 router.patch('/balance', authenticate, controllerWrapper(authController.setBalance))
 

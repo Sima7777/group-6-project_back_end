@@ -3,7 +3,7 @@ const axios = require('axios')
 const { User } = require('../../models')
 const { sendSuccessResponse } = require('../../helpers')
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, FRONTEND_URL } = process.env
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, FRONTEND_URL, BASE_URL } = process.env
 
 const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
@@ -20,7 +20,7 @@ const googleRedirect = async (req, res) => {
     data: {
       client_id: GOOGLE_CLIENT_ID,
       client_secret: GOOGLE_CLIENT_SECRET,
-      redirect_uri: 'http://kapusta-pro.herokuapp.com/api/auth/google-redirect',
+      redirect_uri: `${BASE_URL}/api/auth/google-redirect`,
       grant_type: 'authorization_code',
       code,
     },
@@ -35,26 +35,26 @@ const googleRedirect = async (req, res) => {
   })
   console.log('userData >>', userData)
 
-  const user = await User.findOne({ email: userData.data.email })
+  let user = await User.findOne({ email: userData.data.email })
   if (!user) {
-    const newUser = new User({
+    user = new User({
       email: userData.data.email,
       token: tokenData.data.access_token,
       verifyToken: null,
       verify: true,
     })
-    await newUser.save()
-    sendSuccessResponse(res, newUser, 200)
+    await user.save()
+    sendSuccessResponse(res, user, 200)
   }
   await user.update({ token: tokenData.data.access_token })
   sendSuccessResponse(res, user, 200)
 
   return res.redirect(
-    `${FRONTEND_URL}/google-redirect?token=${user.token}`
+    `${FRONTEND_URL}/google-redirect?email=${user.email}&token=${user.token}`
   )
-//   return res.redirect(
-//     `${FRONTEND_URL}/google-redirect?token=${newUser.token}&refreshToken=${efreshToken}&sessionId=${sessionId}`
-//   )
 }
 
 module.exports = googleRedirect
+//   return res.redirect(
+//     `${FRONTEND_URL}/google-redirect?token=${newUser.token}&refreshToken=${efreshToken}&sessionId=${sessionId}`
+//   )
