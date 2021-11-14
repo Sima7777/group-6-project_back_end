@@ -1,5 +1,6 @@
-const { Transaction, User } = require('../../models')
 const { NotFound } = require('http-errors')
+const { Transaction, User } = require('../../models')
+const { sendSuccessResponse } = require('../../helpers')
 
 const removeById = async (req, res, next) => {
   try {
@@ -16,7 +17,7 @@ const removeById = async (req, res, next) => {
       user.balance += transaction.amount
     }
     await user.save()
-    res.status(200).json({})
+    sendSuccessResponse(res, { message: 'Success delete' })
   } catch (error) {
     next(error)
   }
