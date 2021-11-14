@@ -5,9 +5,12 @@ const { sendSuccessResponse } = require('../../helpers')
 
 const { SECRET_KEY } = process.env
 
-const login = async(req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body
-  const user = await User.findOne({ email }, '_id email password verify')
+  const user = await User.findOne(
+    { email },
+    '_id email name password verify token',
+  )
   if (!user || !user.comparePassword(password)) {
     throw new Unauthorized('Email or password is wrong')
   }
@@ -16,7 +19,7 @@ const login = async(req, res) => {
   }
   const { _id } = user
   const payload = {
-    _id
+    _id,
   }
   const token = jwt.sign(payload, SECRET_KEY)
   await User.findByIdAndUpdate(_id, { token })
