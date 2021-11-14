@@ -4,8 +4,8 @@ const { NotFound } = require('http-errors')
 const removeById = async (req, res, next) => {
   try {
     const userId = req.user._id.toString()
-    const { transactionsId } = req.params
-    const transaction = await Transaction.findByIdAndDelete(transactionsId)
+    const { transactionId } = req.params
+    const transaction = await Transaction.findByIdAndDelete(transactionId)
     if (!transaction) {
       throw new NotFound()
     }
