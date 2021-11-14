@@ -5,7 +5,7 @@ const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
 const current = async (req, res) => {
   const { _id } = req.user
   const user = await User.findById(_id, 'email name token')
-
+  // dfd?
   if (!user) {
     throw new Unauthorized('Not authorized')
   }
