@@ -10,7 +10,7 @@ const current = async (req, res) => {
     throw new Unauthorized('Not authorized')
   }
 
-  sendSuccessResponse(res, { user }, 200)
+  sendSuccessResponse(res, { ...user }, 200)
 }
 
 module.exports = current
