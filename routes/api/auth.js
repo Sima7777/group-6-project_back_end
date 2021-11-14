@@ -19,11 +19,7 @@ router.patch('/avatars', authenticate, upload.single('avatar'), controllerWrappe
 
 router.post('/logout', authenticate, controllerWrapper(authController.logout))
 
-router.get('/google', (req, res) => {
-  console.log('no data')
-  res.send('no data')
-})
-// router.get('/google', controllerWrapper(authController.googleAuth))
+router.get('/google', controllerWrapper(authController.googleAuth))
 
 router.get('/google-redirect', controllerWrapper(authController.googleRedirect))
 
