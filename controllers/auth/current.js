@@ -4,13 +4,13 @@ const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
 
 const current = async (req, res) => {
   const { _id } = req.user
-  const user = await User.findById(_id, 'email name token')
+  const data = await User.findById(_id, 'email name token')
 
-  if (!user) {
+  if (!data) {
     throw new Unauthorized('Not authorized')
   }
 
-  sendSuccessResponse(res, { ...user }, 200)
+  sendSuccessResponse(res, { data }, 200)
 }
 
 module.exports = current
