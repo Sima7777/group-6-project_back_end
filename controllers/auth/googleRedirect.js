@@ -20,7 +20,7 @@ const googleRedirect = async (req, res) => {
     data: {
       client_id: GOOGLE_CLIENT_ID,
       client_secret: GOOGLE_CLIENT_SECRET,
-      redirect_uri: 'http://kapusta-pro.herokuapp.com/api/auth/google-redirect',
+      redirect_uri: 'https://kapusta-pro.herokuapp.com/api/auth/google-redirect',
       grant_type: 'authorization_code',
       code,
     },
