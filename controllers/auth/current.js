@@ -4,7 +4,7 @@ const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
 
 const current = async (req, res) => {
   const { _id } = req.user
-  const data = await User.findById(_id, 'email name token')
+  const data = await User.findById(_id, 'email balance token')
 
   if (!data) {
     throw new Unauthorized('Not authorized')

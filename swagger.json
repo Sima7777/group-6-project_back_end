@@ -293,7 +293,7 @@
                 }
             }
         },
-        "/api/auth/setBalance/": {
+        "/api/auth/balance/": {
             "patch": {
                 "tags": [
                     "Auth"
