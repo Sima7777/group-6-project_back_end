@@ -33,14 +33,14 @@ const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   })
-  console.log('userData >>', userData)
+  // console.log('userData >>', userData)
 
-  const { email } = userData.data
+  const { email, picture } = userData.data
   let user = await User.findOne({ email })
   if (!user) {
     const verifyToken = nanoid()
     const password = nanoid(32)
-    user = new User({ email, verifyToken })
+    user = new User({ email, avatarURL: picture, verifyToken })
     user.setPassword(password)
     await user.save()
   }
