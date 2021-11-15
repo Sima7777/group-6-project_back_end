@@ -1,7 +1,7 @@
 const queryString = require('query-string')
 const axios = require('axios')
+const { nanoid } = require('nanoid')
 const { User } = require('../../models')
-const { sendSuccessResponse } = require('../../helpers')
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, FRONTEND_URL, BASE_URL } = process.env
 
@@ -35,26 +35,20 @@ const googleRedirect = async (req, res) => {
   })
   console.log('userData >>', userData)
 
-  let user = await User.findOne({ email: userData.data.email })
+  const { email } = userData.data
+  let user = await User.findOne({ email })
   if (!user) {
-    user = new User({
-      email: userData.data.email,
-      token: tokenData.data.access_token,
-      verifyToken: null,
-      verify: true,
-    })
+    const verifyToken = nanoid()
+    const password = nanoid(32)
+    user = new User({ email, verifyToken })
+    user.setPassword(password)
     await user.save()
-    sendSuccessResponse(res, user, 200)
   }
-  await user.update({ token: tokenData.data.access_token })
-  sendSuccessResponse(res, user, 200)
+  await user.update({ token: tokenData.data.access_token, verifyToken: null, verify: true })
 
   return res.redirect(
-    `${FRONTEND_URL}/google-redirect?email=${user.email}&token=${user.token}`
+    `${FRONTEND_URL}/google-redirect?email=${user.email}`
   )
 }
 
 module.exports = googleRedirect
-//   return res.redirect(
-//     `${FRONTEND_URL}/google-redirect?token=${newUser.token}&refreshToken=${efreshToken}&sessionId=${sessionId}`
-//   )
