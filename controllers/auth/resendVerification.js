@@ -2,6 +2,8 @@ const { User } = require('../../models')
 const { NotFound, BadRequest } = require('http-errors')
 const { sendEmail, sendSuccessResponse } = require('../../helpers/sendEmail')
 
+const { BASE_URL } = process.env
+
 const repeatEmailVerification = async (req, res) => {
   const { email } = req.body
 
@@ -22,7 +24,7 @@ const repeatEmailVerification = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email to finish registration',
-    html: `<a href="https://kapusta-pro.herokuapp.com/api/auth/verify/${user.verifyToken}" target="_blank">Confirm email<a>`,
+    html: `<a href='${BASE_URL}/api/auth/verify/${user.verifyToken}' target="_blank">Confirm email<a>`,
   }
 
   await sendEmail(verifyEmail)

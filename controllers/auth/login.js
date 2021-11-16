@@ -17,12 +17,14 @@ const login = async (req, res) => {
   if (!user.verify) {
     throw new BadRequest('Email not verify')
   }
-  const { _id } = user
+  // const { _id } = user
   const payload = {
-    _id,
+    // _id,
+    email
   }
   const token = jwt.sign(payload, SECRET_KEY)
-  await User.findByIdAndUpdate(_id, { token })
+  // await User.findByIdAndUpdate(_id, { token })
+  await User.findOneAndUpdate({ email: email }, { token })
   sendSuccessResponse(res, { token, email }, 200)
 }
 

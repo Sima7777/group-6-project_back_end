@@ -3,7 +3,7 @@ const { sendSuccessResponse } = require('../../helpers')
 
 const googleUser = async (req, res) => {
   const { userEmail } = req.params
-  console.log('userEmail', userEmail)
+  // console.log('userEmail', userEmail)
   const user = await User.findOne({ email: userEmail })
   sendSuccessResponse(res, user, 200)
 }
