@@ -1,16 +1,21 @@
 const { Unauthorized } = require('http-errors')
 const { User } = require('../../models')
-const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
+// const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
 
 const current = async (req, res) => {
-  const { _id } = req.user
-  const data = await User.findById(_id, 'email balance token')
+  const token = req.user.token
+  const user = await User.findOne({ token })
 
-  if (!data) {
+  if (!user) {
     throw new Unauthorized('Not authorized')
   }
 
-  sendSuccessResponse(res, { data }, 200)
+  res.status(200).json({
+    user: {
+      email: user.email,
+      balance: user.balance,
+    }
+  })
 }
 
 module.exports = current
