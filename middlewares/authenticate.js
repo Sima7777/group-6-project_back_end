@@ -4,24 +4,27 @@ const { User } = require('../models')
 
 const { SECRET_KEY } = process.env
 
-const authenticate = async(req, res, next) => {
+const authenticate = async (req, res, next) => {
   const { authorization } = req.headers
   if (!authorization) {
     throw new Unauthorized('Not authorized')
   }
-  console.log('authorization', authorization)
   const [bearer, token] = authorization.split(' ')
   if (bearer !== 'Bearer') {
     throw new Unauthorized('Not authorized')
   }
 
   try {
-    const { _id } = jwt.verify(token, SECRET_KEY)
-    const user = await User.findById(_id)
+    // const { _id } = jwt.verify(token, SECRET_KEY)
+    const { email } = jwt.verify(token, SECRET_KEY)
+    // console.log('email', email)
+    const user = await User.findOne({ email })
+    // const user = await User.findById(_id)
     if (!user.token) {
       throw new Unauthorized('Not authorized')
     }
     req.user = user
+    console.log('req.user', req.user)
     next()
   } catch (error) {
     res.status(401).json({

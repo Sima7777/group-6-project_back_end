@@ -3,9 +3,11 @@ const { User } = require('../../models')
 const sendSuccessResponse = require('../../helpers/sendSuccessResponse')
 
 const current = async (req, res) => {
-  const { _id } = req.user
-  const data = await User.findById(_id, 'email balance token')
-
+  // const { _id } = req.user
+  // const data = await User.findById(_id, 'email balance token')
+  const { email } = req.user
+  const data = await User.findOne({ email })
+  console.log('dataCurrent', data)
   if (!data) {
     throw new Unauthorized('Not authorized')
   }
