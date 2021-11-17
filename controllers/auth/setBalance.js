@@ -1,26 +1,20 @@
 const { User } = require('../../models')
-const { NotFound } = require('http-errors')
+// const { sendSuccessResponse } = require('../../helpers')
 
-const setBalance = async (req, res, next) => {
-  try {
-    const { _id } = req.user._id
-    const { balance } = req.body
-    const updateUser = await User.findByIdAndUpdate(
-      _id,
-      { balance },
-      { new: true }
-    )
-    if (!updateUser) {
-      throw new NotFound()
-    }
-    res.json({
-      user: {
-        email: updateUser.email,
-        balance: updateUser.balance,
-      }
-    })
-  } catch (error) {
-    next(error)
-  }
+const setBalance = async (req, res) => {
+  const { _id } = req.user
+  const { balance } = req.body
+
+  const newBalance = await User.findByIdAndUpdate(
+    _id,
+    { balance },
+    { new: true }
+  )
+
+  // res.json(res, { newBalance: balance }, 201)
+  res.status(201).json({
+    balance: newBalance.balance
+  })
 }
+
 module.exports = setBalance

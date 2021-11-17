@@ -4,13 +4,13 @@ const addExpense = async (req, res, next) => {
   try {
     const { amount } = req.body
     const userId = req.user._id.toString()
-    const transactonData = await Transaction.create({
+    const transactionData = await Transaction.create({
       ...req.body,
       isIncome: false,
       owner: userId
     })
     res.status(201).json({
-      transactonData
+      transactionData
     })
     const user = await User.findById(userId)
     user.balance -= amount
