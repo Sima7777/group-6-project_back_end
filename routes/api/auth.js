@@ -25,12 +25,6 @@ router.get('/google-redirect', controllerWrapper(authController.googleRedirect))
 
 router.get('/:userEmail', controllerWrapper(authController.googleUser))
 
-// router.get('/google', controllerWrapper(authController.google))
-
-// router.get('/facebook', controllerWrapper(authController.facebookAuth))
-
-// router.get('/facebook-redirect', controllerWrapper(authController.facebookRedirect))
-
 router.patch('/balance', authenticate, controllerWrapper(authController.setBalance))
 
 module.exports = router
