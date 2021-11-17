@@ -15,7 +15,7 @@ router.post('/login', validation(joiUserSchema), controllerWrapper(authControlle
 
 router.get('/current', authenticate, controllerWrapper(authController.current))
 
-router.get('/currentBalance', authenticate, controllerWrapper(authController.currentBalance))
+router.patch('/currentBalance', authenticate, controllerWrapper(authController.currentBalance))
 
 router.patch('/avatars', authenticate, upload.single('avatar'), controllerWrapper(authController.avatars))
 
