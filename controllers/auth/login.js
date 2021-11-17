@@ -9,7 +9,7 @@ const login = async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne(
     { email },
-    '_id email name password verify token',
+    '_id email avatar password verify token',
   )
   if (!user || !user.comparePassword(password)) {
     throw new Unauthorized('Email or password is wrong')
@@ -24,7 +24,7 @@ const login = async (req, res) => {
   }
   const token = jwt.sign(payload, SECRET_KEY)
   // await User.findByIdAndUpdate(_id, { token })
-  await User.findOneAndUpdate({ email: email }, { token })
+  await User.findOneAndUpdate({ email }, { token })
   sendSuccessResponse(res, { token, email }, 200)
 }
 

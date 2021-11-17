@@ -8,12 +8,9 @@ const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, FRONTEND_URL, BASE_URL, SECRET_K
 
 const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
-  // console.log('fullUrl', fullUrl)
   const urlObj = new URL(fullUrl)
-  // console.log('urlObj', urlObj)
-  const urlParams = queryString.parse(urlObj.search)// search " "
+  const urlParams = queryString.parse(urlObj.search)
   const code = urlParams.code
-  // console.log('code >>', code)
 
   const tokenData = await axios({
     url: 'https://oauth2.googleapis.com/token',
@@ -34,10 +31,9 @@ const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   })
-  // console.log('userData >>', userData)
 
   const { email, picture, id } = userData.data
-  let user = await User.findOne({ email: email })
+  let user = await User.findOne({ email })
   if (!user) {
     const verifyToken = nanoid()
     const password = nanoid(32)
