@@ -9,7 +9,7 @@ const googleRedirect = require('./googleRedirect')
 const setBalance = require('./setBalance')
 const avatars = require('./avatars')
 const googleUser = require('./googleUser')
-// const google = require('./google')
+const currentBalance = require('./currentBalance')
 
 module.exports = {
   signup,
@@ -23,5 +23,5 @@ module.exports = {
   setBalance,
   avatars,
   googleUser,
-  // google
+  currentBalance
 }
