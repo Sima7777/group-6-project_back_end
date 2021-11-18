@@ -20,12 +20,12 @@ const login = async (req, res) => {
     email
   }
 
-  const { avatar } = user
+  const { avatarURL } = user
   const token = jwt.sign(payload, SECRET_KEY)
   // await User.findByIdAndUpdate(_id, { token })
   await User.findOneAndUpdate({ email }, { token })
   // await user.update({ token })
-  sendSuccessResponse(res, { email, avatar, token }, 200)
+  sendSuccessResponse(res, { email, avatarURL, token }, 200)
 }
 
 module.exports = login
