@@ -24,6 +24,7 @@ const login = async (req, res) => {
   // await User.findByIdAndUpdate(_id, { token })
   // await User.findOneAndUpdate({ email }, { token })
   await user.update({ token })
+  console.log('userInLogin', user)
   sendSuccessResponse(res, { user }, 200)
 }
 
