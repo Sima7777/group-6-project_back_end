@@ -1,24 +1,38 @@
 const { NotFound } = require('http-errors')
-const { User } = require('../../models/user')
-const { Transaction } = require('../../models/transaction')
+const { Transaction, User } = require('../../models')
 const { sendSuccessResponse } = require('../../helpers')
 
 const removeById = async (req, res, next) => {
+  const { _id } = req.user
+  const user = await User.findById(_id)
+  const { transactionId } = req.params
+  const transaction = await Transaction.findById(transactionId)
+  const { amount } = transaction
+  const { isIncome } = transaction
   try {
-    const userId = req.user._id.toString()
-    const { transactionId } = req.params
-    const transaction = await Transaction.findByIdAndDelete(transactionId)
-    if (!transaction) {
-      throw new NotFound()
-    }
-    const user = await User.findById(userId)
-    if (transaction.isIncome) {
-      user.balance -= transaction.amount
+    if (!isIncome) {
+      const newBalance = user.balance + amount
+      await User.findByIdAndUpdate(
+        _id,
+        { balance: newBalance },
+        { new: true })
+      const result = Transaction.findByIdAndDelete(transactionId)
+      if (!result) {
+        throw new NotFound()
+      }
+      sendSuccessResponse(res, { message: 'Success delete' })
     } else {
-      user.balance += transaction.amount
+      const newBalance = user.balance - amount
+      await User.findByIdAndUpdate(
+        _id,
+        { balance: newBalance },
+        { new: true })
+      const result = Transaction.findByIdAndDelete(transactionId)
+      if (!result) {
+        throw new NotFound()
+      }
+      sendSuccessResponse(res, { message: 'Success delete' })
     }
-    await user.save()
-    sendSuccessResponse(res, { message: 'Success delete' })
   } catch (error) {
     next(error)
   }
