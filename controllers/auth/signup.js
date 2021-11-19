@@ -26,7 +26,10 @@ const signup = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email to finish registration',
+
     templateId: 'd-4080cef30be44c3291b47a64f2f8dca4'
+
+
   }
 
   await sendEmail(verifyEmail)
