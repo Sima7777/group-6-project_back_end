@@ -1,5 +1,6 @@
 const { NotFound } = require('http-errors')
-const { Transaction, User } = require('../../models')
+const { User } = require('../../models/user')
+const { Transaction } = require('../../models/transaction')
 const { sendSuccessResponse } = require('../../helpers')
 
 const removeById = async (req, res, next) => {

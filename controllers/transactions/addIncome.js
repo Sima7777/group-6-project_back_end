@@ -1,4 +1,5 @@
-const { Transaction, User } = require('../../models')
+const { Transaction } = require('../../models/transaction')
+const { User } = require('../../models/user')
 
 const addIncome = async (req, res, next) => {
   try {
