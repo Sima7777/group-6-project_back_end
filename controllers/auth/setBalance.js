@@ -2,7 +2,7 @@ const { User } = require('../../models')
 // const { sendSuccessResponse } = require('../../helpers')
 
 const setBalance = async (req, res) => {
-  const { _id } = req.user
+  const { _id } = req.user._id
   const { balance } = req.body
 
   const newBalance = await User.findByIdAndUpdate(
@@ -13,7 +13,8 @@ const setBalance = async (req, res) => {
 
   // res.json(res, { newBalance: balance }, 201)
   res.status(201).json({
-    balance: newBalance.balance
+    email: newBalance.email,
+    balance: newBalance.balance,
   })
 }
 
