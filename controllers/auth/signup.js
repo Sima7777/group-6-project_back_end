@@ -26,7 +26,7 @@ const signup = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email to finish registration',
-
+    html: `<a href= '${BASE_URL}/api/auth/verify/${verifyToken}' target='_blank'>Confirm email<a>`,
     templateId: 'd-4080cef30be44c3291b47a64f2f8dca4'
 
 
