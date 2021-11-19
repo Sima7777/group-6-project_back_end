@@ -5,7 +5,7 @@ const { sendSuccessResponse } = require('../../helpers')
 const { User } = require('../../models')
 
 const { sendEmail } = require('../../helpers')
-const { BASE_URL } = process.env
+// const { BASE_URL } = process.env
 
 const signup = async (req, res) => {
   const { email, password } = req.body
@@ -27,6 +27,12 @@ const signup = async (req, res) => {
     to: email,
     subject: 'Verify your email to finish registration',
     html: `<a href= 'https://kapusta-pro.herokuapp.com/api/auth/verify/${verifyToken}' target='_blank'>Confirm email<a>`,
+    templateId: 'd-4080cef30be44c3291b47a64f2f8dca4',
+    // html: `
+
+    // <a href= '${BASE_URL}/api/auth/verify/${verifyToken}' target='_blank'>Confirm email<a>
+    // `,
+
   }
 
   await sendEmail(verifyEmail)
