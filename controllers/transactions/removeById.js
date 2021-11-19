@@ -11,7 +11,7 @@ const removeById = async (req, res, next) => {
   const { isIncome } = transaction
   try {
     if (!isIncome) {
-      const newBalance = user.balance + amount
+      const newBalance = user.balance - amount
       await User.findByIdAndUpdate(
         _id,
         { balance: newBalance },
@@ -22,7 +22,7 @@ const removeById = async (req, res, next) => {
       }
       sendSuccessResponse(res, { message: 'Success delete' })
     } else {
-      const newBalance = user.balance - amount
+      const newBalance = user.balance + amount
       await User.findByIdAndUpdate(
         _id,
         { balance: newBalance },
