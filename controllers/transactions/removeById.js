@@ -16,7 +16,7 @@ const removeById = async (req, res, next) => {
         _id,
         { balance: newBalance },
         { new: true })
-      const result = Transaction.findByIdAndDelete(transactionId)
+      const result = await Transaction.findByIdAndDelete(transactionId)
       if (!result) {
         throw new NotFound()
       }
@@ -27,7 +27,7 @@ const removeById = async (req, res, next) => {
         _id,
         { balance: newBalance },
         { new: true })
-      const result = Transaction.findByIdAndDelete(transactionId)
+      const result = await Transaction.findByIdAndDelete(transactionId)
       if (!result) {
         throw new NotFound()
       }
